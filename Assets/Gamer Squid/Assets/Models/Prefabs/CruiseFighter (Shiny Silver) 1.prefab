@@ -93,6 +93,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -118,9 +120,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &6096582556851992331
 BoxCollider:
@@ -185,6 +189,7 @@ GameObject:
   - component: {fileID: 7466052395463374103}
   - component: {fileID: 2023335749705699350}
   - component: {fileID: 500086028756719653}
+  - component: {fileID: -6384295181781177494}
   m_Layer: 0
   m_Name: CruiseFighter (Shiny Silver) 1
   m_TagString: Enemy
@@ -232,6 +237,9 @@ MonoBehaviour:
   detectDistance: 80
   attackDistance: 6000
   fireInterval: 1
+  fireAngle: 15
+  bulletDamage: 15
+  attackMoveRatio: 0.35
   bulletPrefab: {fileID: 966389669659179266, guid: 721a428069bfde24986473af75e147f9, type: 3}
   muzzle: {fileID: 3326395791201272461}
 --- !u!65 &500086028756719653
@@ -255,6 +263,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 7.221863, y: 1.3842392, z: 4.9099426}
   m_Center: {x: 0.009506226, y: 0.1921196, z: -1.9549713}
+--- !u!114 &-6384295181781177494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7257092327059771022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709042654f1204f47a493c2a97d2724a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHealth
+  team: 1
+  maxHP: 100
+  maxShield: 50
+  shieldRegenDelay: 3
+  shieldRegenPerSecond: 15
 --- !u!1 &7847687965804716775
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +342,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -338,9 +365,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8063732390356436103
 GameObject:
@@ -5106,7 +5135,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &3313684891066890022
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -5125,6 +5154,8 @@ ParticleSystemRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5146,9 +5177,11 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -5180,4 +5213,3 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0

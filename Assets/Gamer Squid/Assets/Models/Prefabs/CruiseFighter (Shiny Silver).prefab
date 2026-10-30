@@ -4852,6 +4852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 457454}
   - component: {fileID: 389159942496462864}
+  - component: {fileID: -4082985603472710013}
   m_Layer: 0
   m_Name: CruiseFighter (Shiny Silver)
   m_TagString: Enemy
@@ -4904,6 +4905,20 @@ MonoBehaviour:
   attackMoveRatio: 0.35
   bulletPrefab: {fileID: 966389669659179266, guid: 721a428069bfde24986473af75e147f9, type: 3}
   muzzle: {fileID: 6865410897066326443}
+--- !u!114 &-4082985603472710013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709042654f1204f47a493c2a97d2724a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHealth
+  team: 1
+  maxHP: 100
 --- !u!1 &174976
 GameObject:
   m_ObjectHideFlags: 0

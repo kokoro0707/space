@@ -4764,7 +4764,7 @@ ParticleSystem:
     vectorLabel1_3: W
 --- !u!199 &1981015662724536115
 ParticleSystemRenderer:
-  serializedVersion: 6
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4783,6 +4783,8 @@ ParticleSystemRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4804,9 +4806,11 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4838,7 +4842,6 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
-  m_MaskInteraction: 0
 --- !u!1 &2911992769094676781
 GameObject:
   m_ObjectHideFlags: 0
@@ -4968,7 +4971,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -4976,6 +4978,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
 --- !u!1 &2968778515296278574
 GameObject:
   m_ObjectHideFlags: 0
@@ -5019,6 +5022,7 @@ GameObject:
   - component: {fileID: 1875666858634245442}
   - component: {fileID: 7414257436491303475}
   - component: {fileID: 23746103605583449}
+  - component: {fileID: 751407575904743251}
   m_Layer: 0
   m_Name: CruiseFighter (Black and Gold) 1
   m_TagString: Player
@@ -5060,8 +5064,12 @@ MonoBehaviour:
   moveSpeed: 30
   boostSpeed: 80
   rotationSpeed: 150
+  visualModel: {fileID: 9033199773990782128}
   maxRollAngle: 45
   rollSmooth: 5
+  dodgeSpeed: 85
+  dodgeDuration: 0.2
+  dodgeCooldown: 2
 --- !u!114 &7414257436491303475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5089,6 +5097,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5150119502274386508, guid: 9b76d61bda7cdaa499c1aa529a7d7a9f, type: 3}
   muzzle: {fileID: 7151414430415546477}
+  fireInterval: 0.15
+  bulletDamage: 25
+--- !u!114 &751407575904743251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5624641750421086969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709042654f1204f47a493c2a97d2724a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHealth
+  team: 0
+  maxHP: 100
+  maxShield: 50
+  shieldRegenDelay: 3
+  shieldRegenPerSecond: 15
 --- !u!1 &6146451586534133999
 GameObject:
   m_ObjectHideFlags: 0
@@ -5151,6 +5178,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5172,9 +5201,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7898567480970659712
 GameObject:
@@ -5237,6 +5268,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -5262,7 +5295,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}

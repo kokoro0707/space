@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 459112}
   - component: {fileID: -4419430447822855082}
+  - component: {fileID: -5423811568582862290}
   m_Layer: 0
   m_Name: CruiseFighter (Iron Armor)
   m_TagString: Untagged
@@ -59,7 +60,24 @@ MonoBehaviour:
   bulletDamage: 15
   attackMoveRatio: 0.35
   bulletPrefab: {fileID: 966389669659179266, guid: 721a428069bfde24986473af75e147f9, type: 3}
-  muzzle: {fileID: 0}
+  muzzle: {fileID: 422860}
+--- !u!114 &-5423811568582862290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 709042654f1204f47a493c2a97d2724a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShipHealth
+  team: 1
+  maxHP: 100
+  maxShield: 0
+  shieldRegenDelay: 3
+  shieldRegenPerSecond: 15
 --- !u!1 &118826
 GameObject:
   m_ObjectHideFlags: 0

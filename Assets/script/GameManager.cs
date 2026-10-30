@@ -6,15 +6,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [Header("プレイヤーHP")]
+    [Header("プレイヤー")]
     public ShipHealth playerHealth;
 
     private int totalEnemies = 10;
-    private int defeatedEnemies = 0;
+    private int defeatedEnemies;
 
     public bool IsFinished { get; private set; }
 
-    private bool isClear = false;
+    private bool isClear;
 
     void Awake()
     {
@@ -82,19 +82,45 @@ public class GameManager : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.skin.label.fontSize = 24;
+        GUIStyle hudStyle = new GUIStyle(GUI.skin.label);
+        hudStyle.fontSize = 24;
 
         if (playerHealth != null)
         {
             GUI.Label(
-                new Rect(20, 20, 400, 40),
-                $"HP: {playerHealth.CurrentHP} / {playerHealth.MaxHP}"
+                new Rect(20, 20, 400, 35),
+                $"HP: {playerHealth.CurrentHP} / {playerHealth.MaxHP}",
+                hudStyle
             );
+
+            GUI.Label(
+                new Rect(20, 55, 400, 35),
+                $"SHIELD: {playerHealth.CurrentShield} / {playerHealth.MaxShield}",
+                hudStyle
+            );
+
+            PlayerController controller =
+                playerHealth.GetComponent<PlayerController>();
+
+            if (controller != null)
+            {
+                string dodgeText =
+                    controller.DodgeCooldownRemaining <= 0f
+                    ? "DODGE: READY"
+                    : $"DODGE: {controller.DodgeCooldownRemaining:F1}s";
+
+                GUI.Label(
+                    new Rect(20, 125, 400, 35),
+                    dodgeText,
+                    hudStyle
+                );
+            }
         }
 
         GUI.Label(
-            new Rect(20, 60, 400, 40),
-            $"撃墜数: {defeatedEnemies} / {totalEnemies}"
+            new Rect(20, 90, 400, 35),
+            $"DESTROYED: {defeatedEnemies} / {totalEnemies}",
+            hudStyle
         );
 
         if (!IsFinished) return;
@@ -102,22 +128,15 @@ public class GameManager : MonoBehaviour
         GUIStyle centerStyle =
             new GUIStyle(GUI.skin.label);
 
-        centerStyle.alignment =
-            TextAnchor.MiddleCenter;
-
+        centerStyle.alignment = TextAnchor.MiddleCenter;
         centerStyle.fontSize = 48;
-
-        string message =
-            isClear ? "MISSION CLEAR" : "GAME OVER";
 
         GUI.Label(
             new Rect(
-                0,
-                Screen.height / 2f - 80,
-                Screen.width,
-                100
+                0, Screen.height / 2f - 80,
+                Screen.width, 100
             ),
-            message,
+            isClear ? "MISSION CLEAR" : "GAME OVER",
             centerStyle
         );
 
@@ -125,10 +144,8 @@ public class GameManager : MonoBehaviour
 
         GUI.Label(
             new Rect(
-                0,
-                Screen.height / 2f + 30,
-                Screen.width,
-                60
+                0, Screen.height / 2f + 30,
+                Screen.width, 60
             ),
             "Press R to Restart",
             centerStyle
