@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
@@ -7,12 +8,13 @@ public class EnemyAI : MonoBehaviour
 
     [Header("移動速度")]
     public float moveSpeed = 15f;
-    public float rushSpeed = 25f;        // 追加：突進速度
+    public float rushSpeed = 25f;
     public float rotationSpeed = 5f;
 
     [Header("ランダム移動")]
     public float wanderRadius = 30f;
     public float wanderChangeInterval = 3f;
+
     private Vector3 wanderTarget;
     private float wanderTimer;
 
@@ -20,12 +22,26 @@ public class EnemyAI : MonoBehaviour
     public float detectDistance = 40f;
     public float attackDistance = 20f;
     public float fireInterval = 1f;
+    public float fireAngle = 15f;
+    public int bulletDamage = 15;
+
+    [Header("攻撃中の移動")]
+    [Range(0f, 1f)]
+    public float attackMoveRatio = 0.35f;
+
     public GameObject bulletPrefab;
     public Transform muzzle;
 
-    private float fireTimer = 0f;
+    private float fireTimer;
 
-    enum State { Rush, Wander, Chase, Attack }
+    enum State
+    {
+        Rush,
+        Wander,
+        Chase,
+        Attack
+    }
+
     State state = State.Rush;
 
     void Start()
@@ -33,17 +49,27 @@ public class EnemyAI : MonoBehaviour
         SetRandomWanderPoint();
     }
 
+    // Spawnerからプレイヤーを設定
+    public void SetPlayer(Transform target)
+    {
+        player = target;
+    }
+
     void Update()
     {
         if (player == null) return;
 
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = Vector3.Distance(
+            transform.position,
+            player.position
+        );
 
-        // Rush → Chase or Wander or Attack に移行
         if (state == State.Rush)
         {
             if (distance < detectDistance)
+            {
                 state = State.Chase;
+            }
         }
         else
         {
@@ -60,35 +86,34 @@ public class EnemyAI : MonoBehaviour
             case State.Rush:
                 RushToPlayer();
                 break;
+
             case State.Wander:
                 Wander();
                 break;
+
             case State.Chase:
                 ChasePlayer();
                 break;
+
             case State.Attack:
                 AttackPlayer();
                 break;
         }
     }
 
-    //===============================
-    // ① スポーン直後：プレイヤーに突進
-    //===============================
     void RushToPlayer()
     {
         RotateTowards(player.position);
-        transform.position += transform.forward * rushSpeed * Time.deltaTime;
+
+        transform.position +=
+            transform.forward * rushSpeed * Time.deltaTime;
     }
 
-    //===============================
-    // ② ランダム移動
-    //===============================
     void Wander()
     {
         wanderTimer += Time.deltaTime;
 
-        if (wanderTimer > wanderChangeInterval)
+        if (wanderTimer >= wanderChangeInterval)
         {
             SetRandomWanderPoint();
         }
@@ -98,7 +123,8 @@ public class EnemyAI : MonoBehaviour
 
     void SetRandomWanderPoint()
     {
-        wanderTimer = 0;
+        wanderTimer = 0f;
+
         wanderTarget = transform.position +
             new Vector3(
                 Random.Range(-wanderRadius, wanderRadius),
@@ -107,53 +133,89 @@ public class EnemyAI : MonoBehaviour
             );
     }
 
-    //===============================
-    // ③ プレイヤー追尾
-    //===============================
     void ChasePlayer()
     {
         MoveToTarget(player.position);
     }
 
-    //===============================
-    // ④ 攻撃
-    //===============================
     void AttackPlayer()
     {
         RotateTowards(player.position);
 
+        // 攻撃中も前進する
+        transform.position +=
+            transform.forward *
+            moveSpeed *
+            attackMoveRatio *
+            Time.deltaTime;
+
         fireTimer += Time.deltaTime;
-        if (fireTimer >= fireInterval)
+
+        if (fireTimer < fireInterval) return;
+
+        if (muzzle == null) return;
+
+        Vector3 targetDirection =
+            player.position - muzzle.position;
+
+        float angle = Vector3.Angle(
+            transform.forward,
+            targetDirection
+        );
+
+        // 正面にターゲットがいる場合のみ攻撃
+        if (angle <= fireAngle)
         {
-            fireTimer = 0;
+            fireTimer = 0f;
             Shoot();
         }
     }
 
-    //===============================
-    // 共通処理
-    //===============================
     void MoveToTarget(Vector3 target)
     {
         RotateTowards(target);
-        transform.position += transform.forward * moveSpeed * Time.deltaTime;
+
+        transform.position +=
+            transform.forward * moveSpeed * Time.deltaTime;
     }
 
     void RotateTowards(Vector3 target)
     {
-        Vector3 dir = (target - transform.position).normalized;
-        Quaternion lookRot = Quaternion.LookRotation(dir);
+        Vector3 direction = target - transform.position;
+
+        if (direction.sqrMagnitude < 0.0001f)
+            return;
+
+        Quaternion targetRotation =
+            Quaternion.LookRotation(direction.normalized);
+
         transform.rotation = Quaternion.Slerp(
             transform.rotation,
-            lookRot,
+            targetRotation,
             Time.deltaTime * rotationSpeed
         );
     }
 
     void Shoot()
     {
-        if (bulletPrefab == null || muzzle == null) return;
+        if (bulletPrefab == null || muzzle == null)
+            return;
 
-        Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
+        GameObject bulletObject = Instantiate(
+            bulletPrefab,
+            muzzle.position,
+            muzzle.rotation
+        );
+
+        Bullet bullet =
+            bulletObject.GetComponent<Bullet>();
+
+        if (bullet != null)
+        {
+            bullet.Initialize(
+                ShipTeam.Enemy,
+                bulletDamage
+            );
+        }
     }
 }
